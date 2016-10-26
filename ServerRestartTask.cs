@@ -1,6 +1,5 @@
 ﻿using MediaBrowser.Common;
 using MediaBrowser.Common.Net;
-using MediaBrowser.Common.ScheduledTasks;
 using MediaBrowser.Controller;
 using MediaBrowser.Controller.Library;
 using MediaBrowser.Controller.Providers;
@@ -11,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using MediaBrowser.Model.Tasks;
 
 namespace ServerRestart
 {
@@ -46,11 +46,11 @@ namespace ServerRestart
         /// Creates the triggers that define when the task will run
         /// </summary>
         /// <returns>IEnumerable{BaseTaskTrigger}.</returns>
-        public IEnumerable<ITaskTrigger> GetDefaultTriggers()
+        public IEnumerable<TaskTriggerInfo> GetDefaultTriggers()
         {
-            return new ITaskTrigger[]
+            return new TaskTriggerInfo[]
                 {
-                    new DailyTrigger { TimeOfDay = TimeSpan.FromHours(3.75) },
+                    new TaskTriggerInfo { Type = TaskTriggerInfo.TriggerDaily, TimeOfDayTicks = TimeSpan.FromHours(3.75).Ticks },
 
                 };
         }
@@ -77,6 +77,18 @@ namespace ServerRestart
         public string Name
         {
             get { return "Scheduled Server Restart"; }
+        }
+
+        /// <summary>
+        /// Gets the category.
+        /// </summary>
+        /// <value>The category.</value>
+        public string Key
+        {
+            get
+            {
+                return "serverrestart";
+            }
         }
 
         /// <summary>
