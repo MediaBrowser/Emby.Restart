@@ -1,23 +1,17 @@
 ﻿using MediaBrowser.Common;
-using MediaBrowser.Common.Net;
-using MediaBrowser.Controller;
-using MediaBrowser.Controller.Library;
-using MediaBrowser.Controller.Providers;
-using MediaBrowser.Model.Entities;
 using MediaBrowser.Model.Logging;
+using MediaBrowser.Model.Tasks;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using MediaBrowser.Model.Tasks;
 
 namespace ServerRestart
 {
     /// <summary>
     /// Downloads trailers from the web at scheduled times
     /// </summary>
-    public class ServerRestartTask : IScheduledTask
+    public class ServerRestartTask : IScheduledTask, IConfigurableScheduledTask
     {
         /// <summary>
         /// Gets or sets the logger.
@@ -110,6 +104,30 @@ namespace ServerRestart
         public string Description
         {
             get { return "Restart the server at a specified time or interval."; }
+        }
+
+        public bool IsHidden
+        {
+            get
+            {
+                return !IsEnabled;
+            }
+        }
+
+        public bool IsEnabled
+        {
+            get
+            {
+                return AppHost.CanSelfRestart;
+            }
+        }
+
+        public bool IsLogged
+        {
+            get
+            {
+                return true;
+            }
         }
     }
 }

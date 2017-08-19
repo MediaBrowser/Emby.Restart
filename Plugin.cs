@@ -1,14 +1,8 @@
-﻿using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Linq;
-using ServerRestart.Configuration;
-using MediaBrowser.Common.Configuration;
+﻿using MediaBrowser.Common.Configuration;
 using MediaBrowser.Common.Plugins;
-using MediaBrowser.Model.Entities;
 using MediaBrowser.Model.Logging;
-using MediaBrowser.Model.Plugins;
 using MediaBrowser.Model.Serialization;
+using ServerRestart.Configuration;
 
 namespace ServerRestart
 {
@@ -51,24 +45,5 @@ namespace ServerRestart
         /// </summary>
         /// <value>The instance.</value>
         public static Plugin Instance { get; private set; }
-
-        /// <summary>
-        /// Holds our registration information
-        /// </summary>
-        public MBRegistrationRecord Registration { get; set; }
-
-        /// <summary>
-        /// Updates the configuration.
-        /// </summary>
-        /// <param name="configuration">The configuration.</param>
-        public override void UpdateConfiguration(BasePluginConfiguration configuration)
-        {
-            var oldConfig = Configuration;
-
-            base.UpdateConfiguration(configuration);
-
-            ServerEntryPoint.Instance.OnConfigurationUpdated(oldConfig, (PluginConfiguration)configuration);
-        }
-
     }
 }
