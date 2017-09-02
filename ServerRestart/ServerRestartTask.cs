@@ -27,9 +27,6 @@ namespace ServerRestart
         /// <summary>
         /// Initializes a new instance of the <see cref="ServerRestartTask" /> class.
         /// </summary>
-        /// <param name="kernel">The kernel.</param>
-        /// <param name="host"></param>
-        /// <param name="logger">The logger.</param>
         public ServerRestartTask(IApplicationHost host, ILogger logger)
         {
             Logger = logger;
@@ -55,13 +52,15 @@ namespace ServerRestart
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <param name="progress">The progress.</param>
         /// <returns>Task.</returns>
-        public async Task Execute(CancellationToken cancellationToken, IProgress<double> progress)
+        public Task Execute(CancellationToken cancellationToken, IProgress<double> progress)
         {
             Logger.Info("Re-starting server as requested/scheduled...");
             progress.Report(100);
 
             // Don't await this so that we will finish before the restart and not get reported as aborted
             AppHost.Restart();
+
+            return Task.FromResult(true);
         }
 
         /// <summary>

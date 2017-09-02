@@ -1,4 +1,5 @@
-﻿using MediaBrowser.Common.Configuration;
+﻿using System;
+using MediaBrowser.Common.Configuration;
 using MediaBrowser.Common.Plugins;
 using MediaBrowser.Model.Logging;
 using MediaBrowser.Model.Serialization;
@@ -17,6 +18,12 @@ namespace ServerRestart
             : base(applicationPaths, xmlSerializer)
         {
             Instance = this;
+        }
+
+        private Guid _id = new Guid("c0aaa55c-f5c4-4024-9480-63add2577b9b");
+        public override Guid Id
+        {
+            get { return _id; }
         }
 
         /// <summary>
